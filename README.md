@@ -1,8 +1,8 @@
-# 📈 Trading Strategy Backtest Tool
+# Trading Strategy Backtest Tool
 
 A comprehensive Streamlit-based application for backtesting multiple trading strategies on financial assets. This tool allows you to test and compare the performance of different algorithmic trading strategies with real market data from Yahoo Finance.
 
-## 🎯 Key Features
+## Key Features
 
 ### Trading Strategies
 - **Trend Following**: Moving average crossover strategy with customizable short and long windows
@@ -24,7 +24,7 @@ A comprehensive Streamlit-based application for backtesting multiple trading str
 - **Multiple Time Intervals**: Daily, hourly, and 5-minute data
 - **Transaction Costs**: Realistic trading cost modeling for arbitrage strategies
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Python 3.8 or higher
@@ -32,15 +32,39 @@ A comprehensive Streamlit-based application for backtesting multiple trading str
 
 ### Installation
 
-1. **Clone or download the repository**
+1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd finm25000_hw5
+   git clone https://github.com/daviddagyei/algo-trading-simulator.git
+   cd algo-trading-simulator
    ```
 
-2. **Install required packages**
+2. **Set up Python environment (recommended)**
    ```bash
-   pip install streamlit pandas numpy plotly yfinance datetime
+   # Create virtual environment
+   python -m venv .venv
+   
+   # Activate virtual environment
+   # On Linux/Mac:
+   source .venv/bin/activate
+   # On Windows:
+   # .venv\Scripts\activate
+   ```
+
+3. **Install required packages**
+   ```bash
+   # Core dependencies for the application
+   pip install streamlit pandas numpy plotly yfinance pytz
+   
+   # Optional: For development and testing
+   pip install pytest jupyter
+   
+   # Or install from requirements file:
+   pip install -r requirements.txt
+   ```
+
+4. **Verify installation**
+   ```bash
+   python -c "import streamlit, pandas, numpy, plotly, yfinance; print('All dependencies installed successfully!')"
    ```
 
 3. **Run the application**
@@ -58,7 +82,7 @@ A comprehensive Streamlit-based application for backtesting multiple trading str
    - Open your web browser and navigate to `http://localhost:8501`
    - The application will launch in your default browser automatically
 
-## 📊 How to Use
+## How to Use
 
 ### 1. Strategy Selection
 Choose from three available strategies:
@@ -95,9 +119,9 @@ Choose from three available strategies:
 - **Transaction Cost**: Trading fees as percentage (0.0-1.0%)
 
 ### 6. Run Backtest
-Click the **"🚀 Run Backtest"** button to execute the strategy and view results.
+Click the **"Run Backtest"** button to execute the strategy and view results.
 
-## 📈 Understanding Results
+## Understanding Results
 
 ### Performance Metrics
 - **Total Return**: Strategy's overall percentage return
@@ -120,10 +144,10 @@ Click the **"🚀 Run Backtest"** button to execute the strategy and view result
 - **Buy & Hold**: Compare strategy performance vs. passive investing
 - **Equal Weight**: For arbitrage, compare vs. equal-weighted portfolio
 
-## 🏗️ Project Structure
+## Project Structure & Dependencies
 
 ```
-finm25000_hw5/
+/
 ├── streamlit_app.py          # Main Streamlit application
 ├── market_data_loader.py     # Yahoo Finance data fetching
 ├── oms.py                    # Order Management System
@@ -133,6 +157,8 @@ finm25000_hw5/
 ├── simulation.ipynb          # Jupyter notebook for analysis
 ├── run_streamlit.sh          # Launch script
 ├── run_app.sh               # Alternative launch script
+├── .gitignore               # Git ignore file for Python projects
+├── LICENSE                  # MIT License
 ├── strategies/              # Strategy implementations
 │   ├── trend_following.py   # Moving average crossover
 │   ├── mean_reversion.py    # Bollinger Bands strategy
@@ -140,7 +166,127 @@ finm25000_hw5/
 └── README.md               # This file
 ```
 
-## 🔧 Technical Details
+### Core Dependencies & Components
+
+The application is built on several interconnected modules that work together to provide a complete trading simulation environment:
+
+#### Market Data Layer
+- **`market_data_loader.py`**: Core data fetching module
+  - Integrates with Yahoo Finance API via `yfinance` library
+  - Supports multiple asset classes (stocks, crypto, ETFs, commodities)
+  - Handles different time intervals (1d, 1h, 5m)
+  - Includes data caching and timezone management
+  - Provides clean OHLCV data formatting for strategies
+
+#### Trading Infrastructure
+- **`order.py`**: Order data structure
+  - Defines the `Order` dataclass with fields: id, symbol, side, quantity, type, price, timestamp
+  - Supports market, limit, and stop order types
+  - Handles order validation and formatting
+
+- **`oms.py`**: Order Management System
+  - Validates incoming orders (side, quantity, type, price requirements)
+  - Tracks order status and lifecycle
+  - Routes orders to matching engines
+  - Provides order acceptance/rejection logic
+
+- **`order_book.py`**: Order book simulation
+  - Simulates realistic order matching
+  - Manages bid/ask spreads
+  - Handles market impact and slippage modeling
+  - Provides liquidity simulation for backtesting
+
+- **`position_tracker.py`**: Portfolio & P&L tracking
+  - Maintains real-time position tracking per symbol
+  - Calculates cash balances and trade settlements
+  - Records complete trade blotter/history
+  - Computes unrealized and realized P&L
+  - Provides portfolio-level risk metrics
+
+#### Strategy Engine
+- **`strategies/trend_following.py`**: Moving average crossover strategy
+  - Implements short/long MA calculation
+  - Generates buy/sell signals on crossovers
+  - Handles position sizing and risk management
+
+- **`strategies/mean_reversion.py`**: Bollinger Bands strategy
+  - Calculates dynamic support/resistance levels
+  - Mean reversion signal generation
+  - Bollinger Band parameter optimization
+
+- **`strategies/arbitrage.py`**: Pairs trading strategy
+  - Correlation analysis between asset pairs
+  - Spread calculation and normalization
+  - Long/short position management
+  - Transaction cost modeling
+
+#### User Interface
+- **`streamlit_app.py`**: Main web application
+  - Interactive parameter configuration
+  - Real-time visualization with Plotly
+  - Strategy comparison and benchmarking
+  - Results analysis and export
+
+### Python Dependencies
+
+The application requires the following Python packages:
+
+```bash
+# Core data and computation
+pandas>=1.3.0          # Data manipulation and analysis
+numpy>=1.21.0          # Numerical computing
+yfinance>=0.1.87       # Yahoo Finance API access
+
+# Web application framework
+streamlit>=1.25.0      # Interactive web app framework
+
+# Data visualization
+plotly>=5.15.0         # Interactive charts and graphs
+
+# Date/time handling
+datetime               # Built-in Python module
+pytz                   # Timezone handling
+
+# Development and testing (optional)
+pytest>=7.0.0          # Unit testing framework
+jupyter>=1.0.0         # Notebook support
+```
+
+### Data Flow Architecture
+
+1. **Data Ingestion**: `market_data_loader.py` fetches historical price data
+2. **Strategy Execution**: Strategy modules process data and generate signals
+3. **Order Generation**: Trading signals create `Order` objects
+4. **Order Processing**: `oms.py` validates and manages order lifecycle
+5. **Trade Execution**: `order_book.py` simulates realistic order matching
+6. **Position Management**: `position_tracker.py` updates portfolios and P&L
+7. **Visualization**: `streamlit_app.py` displays results and analytics
+
+### Testing Infrastructure
+
+The project includes comprehensive testing files (in `__pycache__/` when run):
+- `test_market_data_loader_pytest.py`: Data fetching and validation tests
+- `test_order_and_oms.py`: Order management system tests
+- `test_order_book_sanity.py`: Order book simulation tests
+- `test_position_tracker.py`: Portfolio tracking tests
+- `test_strategies.py`: Strategy logic and performance tests
+- `test_integration.py`: End-to-end system tests
+
+### Execution Scripts
+
+- **`run_streamlit.sh`**: Main application launcher
+  ```bash
+  #!/bin/bash
+  streamlit run streamlit_app.py --server.port 8501
+  ```
+
+- **`run_app.sh`**: Alternative launcher with additional options
+  ```bash
+  #!/bin/bash
+  python -m streamlit run streamlit_app.py
+  ```
+
+## Technical Details
 
 ### Data Source
 - **Yahoo Finance**: Real-time and historical market data via yfinance
@@ -170,31 +316,7 @@ finm25000_hw5/
 - **Max Drawdown**: Maximum peak-to-trough portfolio value decline
 - **Transaction Costs**: Configurable percentage of trade value
 
-## 📋 Examples
-
-### Example 1: Trend Following on Apple Stock
-1. Select "Trend Following" strategy
-2. Choose "Apple" from popular assets
-3. Set date range: Jan 1, 2023 - Dec 31, 2023
-4. Configure: Short MA = 10, Long MA = 30
-5. Set starting cash: $10,000, position size: 10 shares
-6. Run backtest
-
-### Example 2: Mean Reversion on Bitcoin
-1. Select "Mean Reversion" strategy
-2. Choose "Bitcoin" or enter "BTC-USD"
-3. Set parameters: Bollinger window = 20, Std dev = 2.0
-4. Use 1-hour data interval for intraday trading
-5. Run backtest
-
-### Example 3: Arbitrage between Apple and Microsoft
-1. Select "Cross-Asset Arbitrage" strategy
-2. Choose "Apple vs Microsoft" pair
-3. Set threshold = 2.0, lookback = 30 days
-4. Include transaction costs = 0.1%
-5. Run backtest
-
-## 🚧 Limitations & Considerations
+## Limitations & Considerations
 
 - **Backtest Bias**: Historical performance doesn't guarantee future results
 - **Transaction Costs**: Real trading involves spreads, commissions, and slippage
@@ -202,7 +324,7 @@ finm25000_hw5/
 - **Survivorship Bias**: Analysis only includes currently available assets
 - **Look-ahead Bias**: Strategies use only historical data available at each point
 
-## 🛠️ Customization
+## Customization
 
 ### Adding New Strategies
 1. Create new strategy file in `strategies/` folder
@@ -220,15 +342,34 @@ finm25000_hw5/
 - Update visualization functions to display new indicators
 - Add parameter controls in the Streamlit sidebar
 
-## 📞 Support
+## Support & Troubleshooting
 
+### Common Issues & Solutions
+
+#### Installation Issues
+- **ImportError**: Ensure all dependencies are installed in the correct Python environment
+- **Version Conflicts**: Use virtual environments to isolate package versions
+- **yfinance Connection**: Check internet connection and Yahoo Finance availability
+
+#### Runtime Issues
+- **Data Loading Errors**: Verify ticker symbols are valid on Yahoo Finance
+- **Empty DataFrames**: Check date ranges have sufficient market data
+- **Performance Issues**: Use smaller date ranges or daily intervals for initial testing
+
+#### Streamlit Issues
+- **Port Already in Use**: Change port with `streamlit run streamlit_app.py --server.port 8502`
+- **Browser Not Opening**: Manually navigate to `http://localhost:8501`
+- **Caching Issues**: Clear Streamlit cache with Ctrl+C, then restart
+
+### Getting Help
 For questions, issues, or feature requests:
 1. Check existing documentation and examples
 2. Review error messages for troubleshooting hints
 3. Verify Yahoo Finance ticker symbols are correct
 4. Ensure date ranges have sufficient data
+5. Check that all dependencies are properly installed
 
-## 🎓 Educational Use
+## Educational Use
 
 This tool is designed for educational and research purposes to understand:
 - Algorithmic trading strategy development
