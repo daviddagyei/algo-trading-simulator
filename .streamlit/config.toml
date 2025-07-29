@@ -3,7 +3,6 @@ email = "your-email@example.com"
 
 [server]
 headless = true
-port = 8501
 enableCORS = false
 enableXsrfProtection = false
 

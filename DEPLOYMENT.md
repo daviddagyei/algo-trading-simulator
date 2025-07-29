@@ -15,17 +15,53 @@
 ## 🚀 Deployment Steps
 
 ### 1. Repository Setup
-- [x] Code committed to GitHub repository
-- [x] Repository is public or accessible to Streamlit Cloud
+- [x] Code committed to GitHub repository: `daviddagyei/algo-trading-simulator`
+- [x] Repository is public and accessible at: https://github.com/daviddagyei/algo-trading-simulator
 - [x] Main branch contains all necessary files
+- [x] Latest changes pushed to remote repository
 
 ### 2. Streamlit Cloud Deployment
+
+#### Method 1: Direct URL (Recommended)
+1. Go to [share.streamlit.io](https://share.streamlit.io)
+2. Click "New app"
+3. Enter repository URL: `https://github.com/daviddagyei/algo-trading-simulator`
+4. Set branch: `main`
+5. Set main file path: `streamlit_app.py`
+6. Click "Deploy"
+
+#### Method 2: GitHub Integration
 1. Go to [share.streamlit.io](https://share.streamlit.io)
 2. Click "New app"
 3. Connect your GitHub account
 4. Select repository: `daviddagyei/algo-trading-simulator`
-5. Set main file path: `streamlit_app.py`
-6. Click "Deploy"
+5. Set branch: `main`
+6. Set main file path: `streamlit_app.py`
+7. Click "Deploy"
+
+### 3. Troubleshooting Common Issues
+
+#### Issue: "Code is not connected to a remote GitHub repository"
+**Solutions:**
+1. **Make sure repository is public**:
+   - Go to https://github.com/daviddagyei/algo-trading-simulator
+   - Click Settings → scroll down to "Danger Zone"
+   - If repository is private, click "Change visibility" → "Make public"
+
+2. **Use HTTPS URL instead of SSH**:
+   - Repository URL: `https://github.com/daviddagyei/algo-trading-simulator`
+   - NOT: `git@github.com:daviddagyei/algo-trading-simulator.git`
+
+3. **Ensure latest code is pushed**:
+   ```bash
+   git add .
+   git commit -m "Latest changes for deployment"
+   git push origin main
+   ```
+
+4. **Try direct repository URL entry**:
+   - Instead of connecting GitHub account, manually enter the repository URL
+   - Use: `https://github.com/daviddagyei/algo-trading-simulator`
 
 ### 3. Post-Deployment
 - [ ] Test all strategies work correctly
