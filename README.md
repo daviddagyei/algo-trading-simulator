@@ -82,6 +82,22 @@ A comprehensive Streamlit-based application for backtesting multiple trading str
    - Open your web browser and navigate to `http://localhost:8501`
    - The application will launch in your default browser automatically
 
+### Streamlit Cloud Deployment
+
+To deploy this app on Streamlit Cloud:
+
+1. **Fork/Clone this repository** to your GitHub account
+
+2. **Visit [share.streamlit.io](https://share.streamlit.io)**
+
+3. **Connect your GitHub account** and select this repository
+
+4. **Set the main file path** to `streamlit_app.py`
+
+5. **Deploy** - Streamlit Cloud will automatically install dependencies from `requirements.txt`
+
+The app will be available at: `https://your-username-algo-trading-simulator-streamlit-app-xxxxxx.streamlit.app`
+
 ## How to Use
 
 ### 1. Strategy Selection

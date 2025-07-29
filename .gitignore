@@ -158,3 +158,12 @@ datasets/
 # Temporary files
 *.tmp
 *.temp
+
+# Streamlit deployment - keep these files
+!.streamlit/
+!requirements.txt
+!packages.txt
+!streamlit_app.py
+
+# Health check (optional)
+health_check.py

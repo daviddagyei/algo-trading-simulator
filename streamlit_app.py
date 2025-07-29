@@ -32,7 +32,7 @@ def main():
         initial_sidebar_state="expanded"
     )
     
-    st.title("📈 Trading Strategy Backtest Tool")
+    st.title("Trading Strategy Backtest Tool")
     st.markdown("---")
     
     # Sidebar for parameters

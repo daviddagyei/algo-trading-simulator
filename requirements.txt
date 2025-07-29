@@ -5,7 +5,3 @@ numpy>=1.21.0
 plotly>=5.15.0
 yfinance>=0.1.87
 pytz>=2021.1
-
-# Optional development dependencies
-pytest>=7.0.0
-jupyter>=1.0.0
